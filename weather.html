@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather AJAX example</title>
+</head>
+<body>
+
+    <input type="text" id="weather">
+
+    <button onclick="loadWeatherData()">Load</button>
+
+    <div class="weather">
+
+    </div>
+
+
+    <script>
+
+
+        function loadWeatherData() {
+
+        let input = document.querySelector('#weather')
+
+        let city = input.value
+
+        const KEY = "6d480c5037e1f49d5965ba2ef01ff5fe"
+
+        const CURRENT_WEATHER_URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=6d480c5037e1f49d5965ba2ef01ff5fe&units=metric`
+
+           let xhr = new XMLHttpRequest()
+           xhr.open("GET", CURRENT_WEATHER_URL)
+           xhr.onload = function () {
+               let data = JSON.parse(xhr.responseText)
+              // let city = data.name
+               let temp = data.main.temp
+               let wind = data.wind.speed
+               let descripsion = data.weather[0].description
+               let icon = data.weather[0].icon
+
+              //console.log(data)
+              //console.log(temp)
+              //console.log(wind)
+              //console.log(descripsion)
+              //console.log(icon)
+
+              let html = document.createElement('div')
+
+              let h1 = document.createElement('h1')
+              h1.innerText = "city: " + city
+              let h2 = document.createElement('h2')
+              h2.innerText = "temperature: " + temp + "C"
+              let h3 = document.createElement('h3')
+              h3.innerText = descripsion
+              
+              let p = document.createElement('p')
+              p.innerText = "wind speed: " + wind + "m/s"
+              let img = document.createElement('img')
+              img.src = `http://openweathermap.org/img/wn/${icon}@2x.png`
+
+              html.appendChild(h1)
+              html.appendChild(h2)
+              html.appendChild(h3)
+              html.appendChild(p)
+              html.appendChild(img)
+              document.querySelector('.weather').appendChild(html)
+
+
+           }
+           xhr.send()
+
+        }
+        
+        
+
+    </script>
+</body>
+</html>
